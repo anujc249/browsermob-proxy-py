@@ -29,8 +29,8 @@ class Client(object):
         if 'existing_proxy_port_to_use' in options:
             self.port = options['existing_proxy_port_to_use']
         else:
-            resp = requests.post('%s/proxy' % self.host + urlparams)
             for i in range(60):
+                resp = requests.post('%s/proxy' % self.host + urlparams)
                 if resp.status_code == 200:
                     break
                 else:
