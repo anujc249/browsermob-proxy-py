@@ -1,4 +1,5 @@
 import requests
+import time
 
 try:
     from urllib.parse import urlencode, unquote
@@ -29,6 +30,11 @@ class Client(object):
             self.port = options['existing_proxy_port_to_use']
         else:
             resp = requests.post('%s/proxy' % self.host + urlparams)
+            for i in range(60):
+                if resp.status_code == 200:
+                    break
+                else:
+                    time.sleep(0.5)
             content = resp.content.decode('utf-8')
             try:
                 jcontent = json.loads(content)
